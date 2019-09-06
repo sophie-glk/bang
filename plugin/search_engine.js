@@ -79,7 +79,6 @@ function has_prefix(bang, prefix){
     if(prefix == "" || prefix == null || prefix == " "){
      prefix = "!";
     }
-    console.log(prefix);
      if(bang[0] == prefix && bang[1] != "" && bang[1] != null){
          return true;
     }
