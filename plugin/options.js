@@ -1,26 +1,30 @@
 function restore_options() {
     chrome.storage.sync.get(['bangs', 'prefix'], function(result) {
-	if(result.bangs != null){
+	if(result.prefix != null){
+	document.getElementById("prefix").value = result.prefix;
+    
+    }
+        if(result.bangs != null){
         var bangs = JSON.parse(result.bangs);
         var i;
         for (i = 0; i < bangs.length; i++) {
             addline(bangs[i].bang, bangs[i].url, i);
         }
 	}
-	if(result.prefix != null){
-	document.getElementById("prefix").value = result.prefix;
-    
-    }
     }
     );
 }
 
 function addline(bang, url, i) {
-
+    var p = document.getElementById("prefix").value;
+    var prefix = "!";
+    if(p != "" && p != null){
+        prefix=p;
+    }
     var list = document.getElementById("list");
     var d = document.createElement("div");
     d.id = "d" + i;
-    var exl = document.createTextNode("! ");
+    var exl = document.createTextNode(prefix + " ");
     var space = document.createTextNode(" ");
     var br = document.createElement("br");
     var button = document.createElement("button");
@@ -41,7 +45,7 @@ function addline(bang, url, i) {
 
     var inpu = document.createElement("input");
     inpu.value = url;
-    inpu.style = "width:72%";
+    inpu.style = "width:70.5%";
     inpu.classList.add("url");
     inpu.id = "u" + i;
 
