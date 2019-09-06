@@ -4,6 +4,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 
 function bang(request) {
     var search = request.srch;
+    search = "!"+search.substring(1);
      var bang = search.split(" ")[0];
     var raw_search =search.substr(bang.length).trim();
     var search_url = request.srch_url;

@@ -1,5 +1,5 @@
 function restore_options() {
-    chrome.storage.sync.get(['bangs'], function(result) {
+    chrome.storage.sync.get(['bangs', 'prefix'], function(result) {
 	if(result.bangs != null){
         var bangs = JSON.parse(result.bangs);
         var i;
@@ -7,6 +7,10 @@ function restore_options() {
             addline(bangs[i].bang, bangs[i].url, i);
         }
 	}
+	if(result.prefix != null){
+	document.getElementById("prefix").value = result.prefix;
+    
+    }
     }
     );
 }
@@ -30,14 +34,14 @@ function addline(bang, url, i) {
 
     var inpb = document.createElement("input");
     inpb.value = bang;
-    inpb.style = "width:15%"
+    inpb.style = "width:21%"
     inpb.classList.add("bang");
     inpb.id = "ba" + i;
 
 
     var inpu = document.createElement("input");
     inpu.value = url;
-    inpu.style = "width:75%";
+    inpu.style = "width:72%";
     inpu.classList.add("url");
     inpu.id = "u" + i;
 
@@ -54,6 +58,7 @@ function addline(bang, url, i) {
 function save_options() {
     var bangs = document.getElementsByClassName("bang");
     var urls = document.getElementsByClassName("url");
+    var prefix = document.getElementById("prefix").value[0];
     var i;
     var ba = [];
     for (i = 0; i < bangs.length; i++) {
@@ -69,8 +74,11 @@ function save_options() {
     }
     var save = JSON.stringify(ba);
     chrome.storage.sync.set({
-        "bangs": save
+        "bangs": save,
+        "prefix" : prefix
+        
     });
+
     location.reload();
 }
 

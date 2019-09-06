@@ -26,14 +26,17 @@ intercept_engine(form, button, getsearch, search_url);
 
 
 function new_search(){
+    chrome.storage.sync.get(['prefix'], function(result) {
+          var prefix = result.prefix;
 var search = getsearch();
 var bang = search.split(" ")[0];
-if(has_prefix(bang)){
+if(has_prefix(bang, prefix)){
 check_for_bang(search, search_url)
 }
 else if(search != ""){
 form.submit()
 }
+    });
 }
 
 function getsearch() {
