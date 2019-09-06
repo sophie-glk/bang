@@ -18,7 +18,9 @@ function bang(request) {
             if (bangs != null && bangs.length != 0) {
 
                 for (i = 0; i < bangs.length; i++) {
-                    if (bang == "!" + bangs[i].bang) {
+                  var bang_alias = bangs[i].bang.split(" ");
+                    for(j = 0; j < bang_alias.length; j++){
+                    if (bang == "!" + bang_alias[j]) {
                         var URL = (bangs[i].url).replace("@search@",  encodeURIComponent(raw_search));
                         chrome.tabs.update({
                             url: URL
@@ -28,6 +30,7 @@ function bang(request) {
                             checklocal();
                         }
                     }
+                }
                 }
             } else if (search != null && search != "") {
                 checklocal();
