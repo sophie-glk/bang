@@ -17,22 +17,25 @@ function bang(request) {
             }
 
             if (bangs != null && bangs.length != 0) {
-
+                var found = false;
                 for (i = 0; i < bangs.length; i++) {
                   var bang_alias = bangs[i].bang.split(" ");
                     for(j = 0; j < bang_alias.length; j++){
                     if (bang == "!" + bang_alias[j]) {
+                        found = true;
                         var URL = (bangs[i].url).replace("@search@",  encodeURIComponent(raw_search));
                         chrome.tabs.update({
                             url: URL
                         });
-                    } else {
-                        if (i + 1 == bangs.length) {
-                            checklocal();
-                        }
-                    }
+                        break;
+                    } 
                 }
+                if(found){break;}
                 }
+                if(!found){
+                    checklocal();
+                }
+                
             } else if (search != null && search != "") {
                 checklocal();
 
