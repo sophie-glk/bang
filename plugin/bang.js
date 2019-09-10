@@ -57,6 +57,7 @@ function bang(request) {
                     if (banglist[i][0] == bang) {
                         console.log("using local list");
                         chrome.tabs.update({
+                            loadReplace: true,
                             url: banglist[i][1].replace("bang",  encodeURIComponent(raw_search))
                         });
                         found = true;
