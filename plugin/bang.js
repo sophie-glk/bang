@@ -25,6 +25,7 @@ function bang(request) {
                         found = true;
                         var URL = (bangs[i].url).replace("@search@",  encodeURIComponent(raw_search));
                         chrome.tabs.update({
+                            loadReplace: true,
                             url: URL
                         });
                         break;
@@ -86,6 +87,7 @@ function bang(request) {
                         if (response.match(rex) != null) {
 
                             chrome.tabs.update({
+                                loadReplace: true,
                                 url: "https://www.duckduckgo.com/?q=" +  encodeURIComponent(search)
                             });
                         } else {
