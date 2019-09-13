@@ -1,4 +1,9 @@
-function intercept_engine(form, button, getsearch, search_url) {
+function intercept_engine(options) {
+    var form = options.form;
+    var button = options.button;
+    var getsearch = options.getsearch;
+    var search_url = options.search_url;
+    var fix_btn = options.fix_btn;
  var search = getsearch();
  var bang = search.split(" ")[0];
 
@@ -34,7 +39,15 @@ function intercept_engine(form, button, getsearch, search_url) {
 
 		    return false;}
                }
-          });
+               else{
+                  if(fix_btn && getsearch() != ""){
+                  form.submit();
+                  }
+          }
+              
+            }
+              
+        );
             });
      button.parentNode.replaceChild(new_button, button);
      

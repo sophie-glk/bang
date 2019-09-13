@@ -4,6 +4,7 @@ var form = document.getElementById("tsf");
 var button;
 if (window.location.href.indexOf("/search") != -1) {
 	button = document.getElementsByClassName("Tg7LZd")[0];
+    console.log(button);
 
 }
 //home page
@@ -21,7 +22,7 @@ else {
 
 }
 
-intercept_engine(form, button, getsearch, search_url);
+intercept_engine({form: form, button: button, getsearch: getsearch, search_url: search_url, fix_btn: true});
 
 
 
