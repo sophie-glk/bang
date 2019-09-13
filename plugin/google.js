@@ -4,7 +4,6 @@ var form = document.getElementById("tsf");
 var button;
 if (window.location.href.indexOf("/search") != -1) {
 	button = document.getElementsByClassName("Tg7LZd")[0];
-    console.log(button);
 
 }
 //home page

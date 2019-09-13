@@ -95,6 +95,8 @@ function add_engine(){
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',
     save_options);
+document.getElementById('review').addEventListener('click', function() { window.open("https://addons.mozilla.org/en-US/firefox/addon/tt7753bang/"); });
+document.getElementById('bug').addEventListener('click',function(){   window.open("https://github.com/tt7753/bang/issues"); });
 document.getElementById('add_search').addEventListener('click', add_engine);
 document.getElementById('add').addEventListener('click', function() {
     addline("", "", document.getElementsByClassName("bang").length);
