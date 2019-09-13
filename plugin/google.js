@@ -31,7 +31,7 @@ function new_search(){
 var search = getsearch();
 var bang = search.split(" ")[0];
 if(has_prefix(bang, prefix)){
-check_for_bang(search, search_url)
+check_for_bang(search, search_url, false)
 }
 else if(search != ""){
 form.submit()

@@ -16,6 +16,7 @@ function restore_options() {
 }
 
 function addline(bang, url, i) {
+    
     var p = document.getElementById("prefix").value;
     var prefix = "!";
     if(p != "" && p != null){
@@ -60,6 +61,7 @@ function addline(bang, url, i) {
 }
 
 function save_options() {
+
     var bangs = document.getElementsByClassName("bang");
     var urls = document.getElementsByClassName("url");
     var prefix = document.getElementById("prefix").value[0];
@@ -86,9 +88,14 @@ function save_options() {
     location.reload();
 }
 
+function add_engine(){
+    var engine = document.getElementById("search_select").value;
+    window.external.AddSearchProvider("https://tt7753.github.io/bang-custom-search/xml/plugin/" + engine);
+}
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',
     save_options);
+document.getElementById('add_search').addEventListener('click', add_engine);
 document.getElementById('add').addEventListener('click', function() {
     addline("", "", document.getElementsByClassName("bang").length);
 

@@ -4,6 +4,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 
 function bang(request) {
     var search = request.srch;
+    var replace = request.rpl;
     search = "!"+search.substring(1);
      var bang = search.split(" ")[0];
     var raw_search =search.substr(bang.length).trim();
@@ -24,10 +25,7 @@ function bang(request) {
                     if (bang == "!" + bang_alias[j]) {
                         found = true;
                         var URL = (bangs[i].url).replace("@search@",  encodeURIComponent(raw_search));
-                        chrome.tabs.update({
-                            loadReplace: true,
-                            url: URL
-                        });
+                     update_tab(URL);
                         break;
                     } 
                 }
@@ -39,8 +37,6 @@ function bang(request) {
                 
             } else if (search != null && search != "") {
                 checklocal();
-
-
             }
 
         });
@@ -57,10 +53,7 @@ function bang(request) {
                 for (var i = 0; i < banglist.length; i++) {
                     if (banglist[i][0] == bang) {
                         console.log("using local list");
-                        chrome.tabs.update({
-                            loadReplace: true,
-                            url: banglist[i][1].replace("bang",  encodeURIComponent(raw_search))
-                        });
+                     update_tab(banglist[i][1].replace("bang",  encodeURIComponent(raw_search)));
                         found = true;
                         break;
                     }
@@ -86,10 +79,7 @@ function bang(request) {
 
                         if (response.match(rex) != null) {
 
-                            chrome.tabs.update({
-                                loadReplace: true,
-                                url: "https://www.duckduckgo.com/?q=" +  encodeURIComponent(search)
-                            });
+                       update_tab("https://www.duckduckgo.com/?q=" +  encodeURIComponent(search));
                         } else {
                             normalsearch();
                         }
@@ -103,9 +93,14 @@ function bang(request) {
             function normalsearch() {
                 if (search_url != null) {
                     var URL = search_url.replace("@search@",  encodeURIComponent(search));
-                    chrome.tabs.update({
-                        url: URL
-                    });
+                    update_tab(URL);
                 }
+            }
+            function update_tab(URL){
+
+                 chrome.tabs.update({
+                            loadReplace: replace,
+                            url: URL
+                        });
             }
         }

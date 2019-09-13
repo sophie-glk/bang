@@ -5,21 +5,43 @@
 <title>Add Bang</title>
 </head>
 <body>
-   <p> <b> Bang Prefix: </b> </p>
-   
-   <input type="text" id="prefix" placeholder="!" style="width:10%;" maxlength="1">
+<p>
+<b> Custom search engine:</b>
+</p> 
+
+This feature is still in Beta and is disabled by default, but should lead to a faster bang recognition from the address bar once enabled.
+<br>
+<p>
+Usage:
+Select the search engine you want to use.
+You will be prompted to install a new one to your browser. 
+Navigate to your browsers settings and make it the current search engine.
+</p>
+
+<select id="search_select">
+  <option value="google.xml">Google</option>
+  <option value="startpage.xml">Startpage</option>
+  <option value="ecosia.xml">Ecosia</option>
+  <option value="bing.xml">Bing</option>
+</select>
+<p>
+<button id="add_search"> Add </button>
+</p>
+   <p> <b> Bang Prefix: </b> </p>   
+   <input type="text" id="prefix"
+ placeholder="!" style="width:10%;" maxlength="1">
    <p> </p>
    <br>
    <b> Custom Bangs:</b>
 	<p> Usage: Bang in the first column, url in the second one. The location where the search request has to be placed is denoted with @search@. You can specify multiple names for the same bang, just seperate them with spaces.  </p>
 	<div id="list">
-
 	</div>
 <button id="add">+</button>
 <br> 
-   <p> </p>
-
+<p> </p>
+<p> 
 <button id="save">Save</button>
+</p>
 <script src="options.js"></script>
 </body>
 </html>

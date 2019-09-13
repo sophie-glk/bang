@@ -31,6 +31,16 @@
       },
       {
          "matches":[
+            "https://tt7753.github.io/bang-custom-search/plugin.html*"
+         ],
+         "js":[
+            "search_engine.js",
+            "custom_search_engine.js"
+         ],
+         "run_at": "document_start"
+      },
+      {
+         "matches":[
             "http://www.google.com/*",
             "http://www.google.co.jp/*",
             "http://www.google.co.uk/*",

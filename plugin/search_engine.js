@@ -1,5 +1,4 @@
 function intercept_engine(form, button, getsearch, search_url) {
-
  var search = getsearch();
  var bang = search.split(" ")[0];
 
@@ -10,7 +9,7 @@ function intercept_engine(form, button, getsearch, search_url) {
                var search = getsearch();
                var bang = search.split(" ")[0];
                if(has_prefix(bang, prefix)){
-            check_for_bang(search, search_url);
+            check_for_bang(search, search_url, false);
 		if(search_url != null){
                   return false;
 		}
@@ -30,8 +29,9 @@ function intercept_engine(form, button, getsearch, search_url) {
                 var search = getsearch();
                var bang = search.split(" ")[0];
                if(has_prefix(bang, prefix)){
-                check_for_bang(search, search_url);
+                check_for_bang(search, search_url, false);
 		    if(search_url != null){
+
 		    return false;}
                }
           });
@@ -39,11 +39,12 @@ function intercept_engine(form, button, getsearch, search_url) {
      button.parentNode.replaceChild(new_button, button);
      
     }
+
       chrome.storage.sync.get(['prefix'], function(result) {
-          var prefix = result.prefix;
-              if(has_prefix(bang, prefix)){
-        check_for_bang(getsearch(), null);
-               }
+             var prefix = result.prefix;
+       if(has_prefix(bang, prefix)){
+        check_for_bang(getsearch(), null, true);
+       }
       });
     
 }
@@ -60,17 +61,18 @@ function intercept_url(url_param){
  chrome.storage.sync.get(['prefix'], function(result) {
           var prefix = result.prefix;
               if(has_prefix(bang, prefix)){
-        check_for_bang(getsearch(), null);
+        check_for_bang(getsearch(), null, false);
                }
       });
  }
 }
-function check_for_bang(search, search_url) {
-
+function check_for_bang(search, search_url, replace) {
     chrome.runtime.sendMessage({
         srch: search,
-	srch_url: search_url   
-    },  function(response) {});
+	srch_url: search_url,
+    rpl: replace
+    },  function(response) {
+    });
 
 
 }
@@ -86,3 +88,4 @@ function has_prefix(bang, prefix){
     else{ return false;}
     
 }
+
