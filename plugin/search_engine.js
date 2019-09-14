@@ -8,7 +8,7 @@ function intercept_engine(options) {
  var bang = search.split(" ")[0];
 
     if (form != null) {
-        form.onsubmit = function() {
+        form.addEventListener('submit', function(event){ 
             chrome.storage.sync.get(['prefix'], function(result) {
                 var prefix = result.prefix;
                var search = getsearch();
@@ -16,19 +16,22 @@ function intercept_engine(options) {
                if(has_prefix(bang, prefix)){
             check_for_bang(search, search_url, false);
 		if(search_url != null){
-                  return false;
+                  event.preventDefault();
 		}
 	    
         }
         });
+    });
+    
     }
-    }
+    
 
     if (button != null) {
             //get rid of all other event listeners by cloning
             var new_button = button.cloneNode(true);
             new_button.setAttribute("type", "button"),
      new_button.addEventListener("click", function() {
+         console.log(getsearch());
           chrome.storage.sync.get(['prefix'], function(result) {
               var prefix = result.prefix;
                 var search = getsearch();
@@ -39,6 +42,7 @@ function intercept_engine(options) {
 
 		    return false;}
                }
+                              
                else{
                   if(fix_btn && getsearch() != ""){
                   form.submit();
