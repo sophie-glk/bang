@@ -90,7 +90,7 @@ function save_options() {
 
 function add_engine(){
     var engine = document.getElementById("search_select").value;
-    window.external.AddSearchProvider("https://tt7753.github.io/bang-custom-search/xml/plugin/" + engine);
+    window.external.AddSearchProvider("https://sophie-glk.github.io/bang-custom-search/xml/plugin/" + engine);
 }
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',
