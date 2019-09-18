@@ -1,1 +1,0 @@
-intercept_url("q");
