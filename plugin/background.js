@@ -10,7 +10,7 @@ chrome.webRequest.onBeforeRequest.addListener(
           
         }
           console.log(search);
-          match(url, search);
+          match(url, search, info.tabId);
     },
     // filters
     {
@@ -82,17 +82,15 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 
 
-function match(url, search) {
+function match(url, search, tab_id) {
     if(search != null){
      chrome.storage.sync.get(['prefix'], function(result) {
      var prefix = result.prefix;
      if(has_prefix(search, prefix)){
-        console.log("Is probably a bang");
-        console.log(search);
         bang({
             srch: search,
             rpl: false
-        });
+        }, tab_id);
     }
      });
     }
