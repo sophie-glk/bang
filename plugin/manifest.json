@@ -99,19 +99,9 @@
             "http://www.bing.com/*"
          ],
          "js":[
+            "search_engine.js",
             "bing.js"
          ]
-      },
-      {
-         "matches":[
-            "https://www.bing.com/*",
-            "http://www.bing.com/*"
-         ],
-         "js":[
-            "search_engine.js",
-            "bing_url.js"
-         ],
-         "run_at":"document_start"
       },
       {
          "matches":[
