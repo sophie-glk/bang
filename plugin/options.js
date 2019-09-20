@@ -88,16 +88,10 @@ function save_options() {
     location.reload();
 }
 
-function add_engine(){
-    var engine = document.getElementById("search_select").value;
-    window.external.AddSearchProvider("https://sophie-glk.github.io/bang-custom-search/xml/plugin/" + engine);
-}
 document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click',
-    save_options);
 document.getElementById('review').addEventListener('click', function() { window.open("https://addons.mozilla.org/en-US/firefox/addon/tt7753bang/"); });
-document.getElementById('bug').addEventListener('click',function(){   window.open("https://github.com/tt7753/bang/issues"); });
-document.getElementById('add_search').addEventListener('click', add_engine);
+document.getElementById('bug').addEventListener('click',function(){   window.open("https://github.com/sophie-glk/bang/issues"); });
+document.getElementById('save').addEventListener('click', save_options);
 document.getElementById('add').addEventListener('click', function() {
     addline("", "", document.getElementsByClassName("bang").length);
 

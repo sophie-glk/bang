@@ -1,8 +1,8 @@
 chrome.runtime.onMessage.addListener(function(request, sender) {
-    bang(request);
+    bang(request,  sender.tab.id);
 });
 
-function bang(request) {
+function bang(request, tab_id) {
     var search = request.srch;
     var replace = request.rpl;
     search = "!"+search.substring(1);
@@ -97,10 +97,15 @@ function bang(request) {
                 }
             }
             function update_tab(URL){
-
-                 chrome.tabs.update({
+                 var m = {
                             loadReplace: replace,
                             url: URL
-                        });
+                        };
+                        if(tab_id != null){
+                 chrome.tabs.update(tab_id, m);
+                        }
+                        else{
+                            chrome.tabs.update(m);
+                        }
             }
         }
