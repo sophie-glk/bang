@@ -1,15 +1,8 @@
 {
    "name":"Bang!",
    "version":"1.7",
-   "browser_specific_settings":{
-      "gecko":{
-         "id":"bangs@tt7753",
-         "strict_min_version":"57.0"
-      }
-   },
    "options_ui":{
       "page":"options.html",
-      "browser_style":true,
       "chrome_style":true
    },
    "description":"An extension to add duckduckgo bangs to various search engines",

@@ -98,7 +98,6 @@ function bang(request, tab_id) {
             }
             function update_tab(URL){
                  var m = {
-                            loadReplace: replace,
                             url: URL
                         };
                         if(tab_id != null){
