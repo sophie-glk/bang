@@ -11,7 +11,6 @@ function check_for_banglist_update() {
                 chrome.storage.sync.set({
                     "banglist_version": version
                 });
-                console.log(version);
                 check(version);
 
             });
@@ -23,7 +22,7 @@ function check_for_banglist_update() {
     });
 
     function check(curr_version) {
-        get_json("https://raw.githubusercontent.com/sophie-glk/bang/"+branch+"/banglist/version.json", function(response) {
+        get_json("https://raw.githubusercontent.com/sophie-glk/bang/"+branch+"/plugin/banglist/version.json", function(response) {
             var new_version = response.version;
             console.log(new_version);
             if (new_version > curr_version) {
@@ -37,8 +36,9 @@ function check_for_banglist_update() {
 }
 
 function update_banglist() {
-     get_json("https://raw.githubusercontent.com/sophie-glk/bang/"+branch+"/banglist/bangs.json", function(response) {
+     get_json("https://raw.githubusercontent.com/sophie-glk/bang/"+branch+"/plugin/banglist/bangs.json", function(response) {
          if(response != null && Array.isArray(response)){
+         console.log("Update successful!");
          var bl = JSON.stringify(response);
          chrome.storage.sync.set({
                     "banglist": bl
