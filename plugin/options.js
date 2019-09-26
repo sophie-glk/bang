@@ -88,10 +88,19 @@ function save_options() {
     location.reload();
 }
 
+function update_banglist(){
+    chrome.runtime.sendMessage({
+      update: true
+    },  function(response) {
+    });
+    
+}
+
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('review').addEventListener('click', function() { window.open("https://addons.mozilla.org/en-US/firefox/addon/tt7753bang/"); });
 document.getElementById('bug').addEventListener('click',function(){   window.open("https://github.com/sophie-glk/bang/issues"); });
 document.getElementById('save').addEventListener('click', save_options);
+document.getElementById('update').addEventListener('click', update_banglist)
 document.getElementById('add').addEventListener('click', function() {
     addline("", "", document.getElementsByClassName("bang").length);
 
