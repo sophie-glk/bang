@@ -8,7 +8,7 @@ function check_for_banglist_update() {
     chrome.storage.sync.get(['banglist_version'], function(result) {
         var version = result.banglist_version;
         if (version == null) {
-            get_file(chrome.runtime.getURL('banglist/version.json'), function(response) {
+            get_file(chrome.runtime.getURL('banglist/version.json'), "json", function(response) {
                 version = response.version;
                 chrome.storage.sync.set({
                     "banglist_version": version
