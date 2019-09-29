@@ -92,6 +92,7 @@ function update_banglist(){
     chrome.runtime.sendMessage({
       update: true
     },  function(response) {
+        alert("OK");
     });
     
 }

@@ -1,4 +1,3 @@
-var branch = "develop";
 /*
  check_for_banglist_update();
 setInterval(function() {
@@ -25,11 +24,19 @@ function check_for_banglist_update() {
     });
 
     function check(curr_version) {
-        get_json("https://raw.githubusercontent.com/sophie-glk/bang/" + branch + "/plugin/banglist/version.json", function(response) {
-            var new_version = response.version;
-            console.log(new_version);
-            if (new_version > curr_version) {
-                update_banglist(curr_version);
+        console.log(curr_version);
+        get_file("https://duckduckgo.com/bang?q=a", "html", function(response) {
+        var lines = response.split("\n");
+            for(var i = 0; i < lines.length; i++){
+               if(lines[i].includes("DDG.inject(\"DDG.Data.bangs.version\"")){
+                   var regex = /[0-9]+/;
+                   var new_version = lines[i].match(regex)[0];
+                   console.log(new_version);
+                   if(new_version > curr_version){
+                       update_banglist(new_version);
+                }
+                   break;
+            }
             }
         });
 
@@ -39,7 +46,7 @@ function check_for_banglist_update() {
 }
 
 function update_banglist(to_version) {
-    get_json("https://duckduckgo.com/bang.v" + to_version + ".js", function(response) {
+    get_file("https://duckduckgo.com/bang.v" + to_version + ".js", "json", function(response) {
         if (response != null && Array.isArray(response)) {
             var result = [];
             for (var i = 0; i < response.length; i++) {
@@ -51,7 +58,8 @@ function update_banglist(to_version) {
             console.log("Update successful!");
             var bl = JSON.stringify(result);
             chrome.storage.sync.set({
-                "banglist": bl
+                "banglist": bl,
+                "banglist_version": to_version
             });
 
         }
@@ -59,9 +67,9 @@ function update_banglist(to_version) {
 
 }
 
-function get_json(url, callback) {
+function get_file(url, type, callback) {
     var req = new XMLHttpRequest();
-    req.responseType = 'json';
+    req.responseType = type;
     req.open('GET', url, true);
     req.onload = function() {
         callback(req.response);
@@ -69,3 +77,4 @@ function get_json(url, callback) {
     req.send(null);
 
 }
+

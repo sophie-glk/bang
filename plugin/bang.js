@@ -62,7 +62,7 @@ function bang(request, tab_id) {
         });
 
         function load_bangsjson(check) {
-            get_json(chrome.runtime.getURL('banglist/bangs.json'), function(response) {
+            get_file(chrome.runtime.getURL('banglist/bangs.json'), "json", function(response) {
                 var bl = JSON.stringify(response);
                 chrome.storage.sync.set({
                     "banglist": bl
