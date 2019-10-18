@@ -1,6 +1,6 @@
 {
    "name":"Bang!",
-   "version":"1.7",
+   "version":"1.8.1",
    "options_ui":{
       "page":"options.html",
       "chrome_style":true
@@ -9,7 +9,8 @@
    "background":{
       "scripts":[
          "background.js",
-         "bang.js"
+         "bang.js",
+         "update.js"
       ]
    },
    "content_scripts":[
@@ -175,7 +176,8 @@
       "https://*.ecosia.org/search*"
    ],
    "web_accessible_resources":[
-      "bangs.json"
+      "banglist/bangs.json",
+      "banglist/version.json"
    ],
    "icons":{
       "256":"icon.png"
