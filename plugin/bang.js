@@ -110,6 +110,7 @@ function bang(request, tab_id) {
                     normalsearch();
                 }
             }
+
         };
 
         xhttp.open("GET", "https://duckduckgo.com/bang_lite.html", true);
@@ -123,15 +124,18 @@ function bang(request, tab_id) {
         }
     }
 
-    function update_tab(URL) {
-        var m = {
-            loadReplace: replace,
-            url: URL
-        };
-        if (tab_id != null) {
-            chrome.tabs.update(tab_id, m);
-        } else {
-            chrome.tabs.update(m);
+            function update_tab(URL){
+                 var m = {
+                            url: URL
+                        };
+                        if(tab_id != null){
+                 chrome.tabs.update(tab_id, m);
+                        }
+                        else{
+                            chrome.tabs.update(m);
+                        }
+            }
+
         }
     }
 

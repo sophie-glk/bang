@@ -45,7 +45,7 @@ function addline(bang, url, i) {
 
     var inpu = document.createElement("input");
     inpu.value = url;
-    inpu.style = "width:70.5%";
+    inpu.style = "width:60.5%";
     inpu.classList.add("url");
     inpu.id = "u" + i;
 
