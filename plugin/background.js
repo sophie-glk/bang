@@ -123,10 +123,13 @@ function contains_bang(search, callback){
     for (var i = 0; i < words.length; i++){
         word = words[i];
         if(has_prefix(word, prefix)){
+            var rpl = word;
+            if( words.length > 1){
             var space = " ";
-            var rpl = word + space;
+            rpl = word + space;
             if(i > 0){
                rpl = space + word; 
+            }
             }
             s = search.replace(rpl, "");
             b = true;

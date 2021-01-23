@@ -19,7 +19,7 @@ function bang(request, tab_id) {
     bang = "!" + bang.substring(1);
     console.log(bang);
     var search_url = request.srch_url;
-    if (search != null && search != "") {
+    if (search != null) {
         chrome.storage.sync.get(['bangs'], function(result) {
             var i;
             var bangs = null;
@@ -47,7 +47,7 @@ function bang(request, tab_id) {
                     checklocal();
                 }
 
-            } else if (search != null && search != "") {
+            } else if (search != null) {
                 checklocal();
             }
 
