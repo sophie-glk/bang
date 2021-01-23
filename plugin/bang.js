@@ -1,3 +1,6 @@
+chrome.storage.sync.set({
+                    "banglist": ""
+                });
 chrome.runtime.onMessage.addListener(function(request, sender) {
     if(request.update){
      check_for_banglist_update();   
@@ -52,7 +55,7 @@ function bang(request, tab_id) {
     }
 
     function checklocal() {
-        chrome.storage.sync.get(['banglist'], function(result) {
+        chrome.storage.local.get(['banglist'], function(result) {
             var banglist = result.banglist;
             if (banglist == null) {
                 console.log("first run");
@@ -65,7 +68,7 @@ function bang(request, tab_id) {
         function load_bangsjson(check) {
             get_file(chrome.runtime.getURL('banglist/bangs.json'), "json", function(response) {
                 var bl = JSON.stringify(response);
-                chrome.storage.sync.set({
+                chrome.storage.local.set({
                     "banglist": bl
                 });
                 check(bl);

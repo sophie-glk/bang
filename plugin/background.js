@@ -122,7 +122,6 @@ function contains_bang(search, callback){
     var words = search.split(" ");
     for (var i = 0; i < words.length; i++){
         word = words[i];
-        console.log(word);
         if(has_prefix(word, prefix)){
             s = search.replace(word, "");
             b = true;
