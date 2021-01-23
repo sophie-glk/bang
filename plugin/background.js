@@ -1,5 +1,6 @@
 chrome.webRequest.onBeforeRequest.addListener(
     function(info) {
+        console.log(info);
         var url_s = info.url;
         var url = new URL(url_s);
         var search = null;
@@ -83,13 +84,14 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 
 function match(url, search, tab_id) {
+     console.log("matching...");
     if(search != null){
-     chrome.storage.sync.get(['prefix'], function(result) {
-     var prefix = result.prefix;
-     if(has_prefix(search, prefix)){
+     contains_bang(search, function(b, raw_search, BANG){
+     if(b){
         bang({
-            srch: search,
-            rpl: false
+            srch: raw_search,
+            rpl: false,
+            bng: BANG
         }, tab_id);
     }
      });
@@ -103,9 +105,33 @@ function has_prefix(bang, prefix){
      if(bang[0] == prefix && bang[1] != "" && bang[1] != null){
          return true;
     }
-    
     else{ return false;}
     
+}
+
+function get_prefix(callback){
+     chrome.storage.sync.get(['prefix'], function(result) {
+      callback(result.prefix);});
+}
+
+function contains_bang(search, callback){
+     get_prefix(function(prefix) {
+    var b = false;
+    var bang = "";
+    var s = "";
+    var words = search.split(" ");
+    for (var i = 0; i < words.length; i++){
+        word = words[i];
+        console.log(word);
+        if(has_prefix(word, prefix)){
+            s = search.replace(word, "");
+            b = true;
+            bang = word;
+            break;
+        }
+    }
+    callback(b, s, bang);
+     }); 
 }
 
 

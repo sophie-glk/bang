@@ -10,10 +10,11 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 
 function bang(request, tab_id) {
     var search = request.srch;
+    var raw_search = search;
     var replace = request.rpl;
-    search = "!" + search.substring(1);
-    var bang = search.split(" ")[0];
-    var raw_search = search.substr(bang.length).trim();
+    var bang = request.bng;
+    bang = "!" + bang.substring(1);
+    console.log(bang);
     var search_url = request.srch_url;
     if (search != null && search != "") {
         chrome.storage.sync.get(['bangs'], function(result) {

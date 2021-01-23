@@ -4,16 +4,12 @@ function intercept_engine(options) {
     var getsearch = options.getsearch;
     var search_url = options.search_url;
     var fix_btn = options.fix_btn;
- var search = getsearch();
- var bang = search.split(" ")[0];
 
     if (form != null) {
-        form.addEventListener('submit', function(event){ 
-            get_prefix( function(prefix) {
-               var search = getsearch();
-               var bang = search.split(" ")[0];
-               if(has_prefix(bang, prefix)){
-            check_for_bang(search, search_url, false);
+        form.addEventListener('submit', function(event){
+               contains_bang(getsearch(), function(b, raw_search, bang){
+               if(b){
+            check_for_bang(raw_search, search_url, false, bang);
 		if(search_url != null){
                   event.preventDefault();
 		}
@@ -30,24 +26,22 @@ function intercept_engine(options) {
             new_button.setAttribute("type", "button"),
      new_button.addEventListener("click", function() {
          console.log(getsearch());
-          get_prefix( function(prefix) {
-                var search = getsearch();
-               var bang = search.split(" ")[0];
-               if(has_prefix(bang, prefix)){
-                check_for_bang(search, search_url, false);
+            
+                
+               contains_bang(getsearch(), function(b, se, raw_search, bang){
+               if(b){
+                check_for_bang(search, search_url, false, bang);
 		    if(search_url != null){
 		    return false;}
-               }
-                              
+               }      
                else{
                   if(fix_btn && getsearch() != ""){
                   form.submit();
                   }
           }
               
-            }
+               });
               
-        );
             });
      button.parentNode.replaceChild(new_button, button);
      
@@ -67,19 +61,19 @@ var url = new URL(window.location.href);
 var search = url.searchParams.get(search_param);
 console.log(search_param);
 console.log(search);
- get_prefix( function(prefix) {
-var bang = search.split(" ")[0];
-if(has_prefix(bang, prefix)){
+contains_bang(search, function(b, s){
+if(b){
 check_for_bang(search, null, true);
 }
 });
 }
 
-function check_for_bang(search, search_url, replace) {
+function check_for_bang(search, search_url, replace, bang) {
     chrome.runtime.sendMessage({
         srch: search,
 	srch_url: search_url,
-    rpl: replace
+    rpl: replace,
+    bng: bang
     },  function(response) {
     });
 
@@ -97,8 +91,25 @@ function has_prefix(bang, prefix){
      if(bang[0] == prefix && bang[1] != "" && bang[1] != null){
          return true;
     }
-    
     else{ return false;}
-    
+}
+
+function contains_bang(search, callback){
+     get_prefix(function(prefix) {
+    var b = false;
+    var bang = "";
+    var s = "";
+    var words = search.split(" ");
+   for (var i = 0; i < words.length; i++){
+        word = words[i];
+        if(has_prefix(word, prefix)){
+            s = search.replace(word, "");
+            b = true;
+            bang = word;
+            break;
+        }
+    }
+    callback(b, s, bang);
+     });
 }
 
