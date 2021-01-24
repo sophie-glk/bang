@@ -87,36 +87,11 @@ function bang(request, tab_id) {
                 }
             }
             if (!found) {
-                ddg();
+                normalsearch();
             }
 
         }
 
-    }
-
-
-    function ddg() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onload = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var response = xhttp.response;
-
-                // var regex= (?:\()?(?:\+bang+)(?:\))?(?:\<br\>)?(?:);
-                var regex = " (?:\\()?(?:\\" + bang + ")(?:\\))?(?:\\<br\\>)?(?:) "
-                var rex = new RegExp(regex, "g");
-                response = response.replace(/(\r\n|\n|\r)/gm, " ");
-
-                if (response.match(rex) != null) {
-
-                    update_tab("https://www.duckduckgo.com/?q=" + encodeURIComponent(search));
-                } else {
-                    normalsearch();
-                }
-            }
-        };
-
-        xhttp.open("GET", "https://duckduckgo.com/bang_lite.html", true);
-        xhttp.send();
     }
 
     function normalsearch() {
