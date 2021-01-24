@@ -1,6 +1,3 @@
-intercept_url("/dsearch?query=");
-intercept_url("/metasearch.pl?query=");
-
 console.log("startpage.js loaded");
 var form;
 var getsearch;

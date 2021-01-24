@@ -1,3 +1,6 @@
+chrome.storage.sync.set({
+                    "banglist": ""
+                });
 chrome.runtime.onMessage.addListener(function(request, sender) {
     if(request.update){
      check_for_banglist_update();   
@@ -10,19 +13,19 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 
 function bang(request, tab_id) {
     var search = request.srch;
+    var raw_search = request.raw_srch;
     var replace = request.rpl;
-    search = "!" + search.substring(1);
-    var bang = search.split(" ")[0];
-    var raw_search = search.substr(bang.length).trim();
+    var bang = request.bng;
+    bang = "!" + bang.substring(1);
+    console.log(bang);
     var search_url = request.srch_url;
-    if (search != null && search != "") {
+    if (search != null) {
         chrome.storage.sync.get(['bangs'], function(result) {
             var i;
             var bangs = null;
             if (result.bangs != null) {
                 bangs = JSON.parse(result.bangs);
             }
-
             if (bangs != null && bangs.length != 0) {
                 var found = false;
                 for (i = 0; i < bangs.length; i++) {
@@ -30,8 +33,7 @@ function bang(request, tab_id) {
                     for (j = 0; j < bang_alias.length; j++) {
                         if (bang == "!" + bang_alias[j]) {
                             found = true;
-                            var URL = (bangs[i].url).replace("@search@", encodeURIComponent(raw_search));
-                            update_tab(URL);
+                            use_bang(bangs[i].url, raw_search, "@search@");
                             break;
                         }
                     }
@@ -43,7 +45,7 @@ function bang(request, tab_id) {
                     checklocal();
                 }
 
-            } else if (search != null && search != "") {
+            } else if (search != null) {
                 checklocal();
             }
 
@@ -51,7 +53,7 @@ function bang(request, tab_id) {
     }
 
     function checklocal() {
-        chrome.storage.sync.get(['banglist'], function(result) {
+        chrome.storage.local.get(['banglist'], function(result) {
             var banglist = result.banglist;
             if (banglist == null) {
                 console.log("first run");
@@ -64,7 +66,7 @@ function bang(request, tab_id) {
         function load_bangsjson(check) {
             get_file(chrome.runtime.getURL('banglist/bangs.json'), "json", function(response) {
                 var bl = JSON.stringify(response);
-                chrome.storage.sync.set({
+                chrome.storage.local.set({
                     "banglist": bl
                 });
                 check(bl);
@@ -78,42 +80,17 @@ function bang(request, tab_id) {
             for (var i = 0; i < banglist.length; i++) {
                 if (banglist[i][0] == bang) {
                     console.log("using local list");
-                    update_tab(banglist[i][1].replace("bang", encodeURIComponent(raw_search)));
+                    use_bang(banglist[i][1], raw_search, "bang");
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                ddg();
+                normalsearch();
             }
 
         }
 
-    }
-
-
-    function ddg() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onload = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var response = xhttp.response;
-
-                // var regex= (?:\()?(?:\+bang+)(?:\))?(?:\<br\>)?(?:);
-                var regex = " (?:\\()?(?:\\" + bang + ")(?:\\))?(?:\\<br\\>)?(?:) "
-                var rex = new RegExp(regex, "g");
-                response = response.replace(/(\r\n|\n|\r)/gm, " ");
-
-                if (response.match(rex) != null) {
-
-                    update_tab("https://www.duckduckgo.com/?q=" + encodeURIComponent(search));
-                } else {
-                    normalsearch();
-                }
-            }
-        };
-
-        xhttp.open("GET", "https://duckduckgo.com/bang_lite.html", true);
-        xhttp.send();
     }
 
     function normalsearch() {
@@ -133,6 +110,16 @@ function bang(request, tab_id) {
         } else {
             chrome.tabs.update(m);
         }
+    }
+    
+    function use_bang(bang_url, raw_search, id){
+           var url = "";
+           if(raw_search != ""){url = bang_url.replace(id, encodeURIComponent(raw_search)); }
+           else { 
+            var u = new URL(bang_url);
+            url = u.protocol + "//" + u.hostname;
+                    }
+           update_tab(url);
     }
 
 }
