@@ -29,25 +29,6 @@
             "search_engine.js",
             "startpage.js"
          ]
-      },
-      {
-         "matches":[
-            "https://www.bing.com/*",
-            "http://www.bing.com/*"
-         ],
-         "js":[
-            "search_engine.js",
-            "bing.js"
-         ]
-      },
-      {
-         "matches":[
-            "https://www.ecosia.org/*"
-         ],
-         "js":[
-            "search_engine.js",
-            "ecosia.js"
-         ]
       }
    ],
    "permissions":[
