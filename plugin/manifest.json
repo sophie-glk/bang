@@ -17,7 +17,8 @@
       "scripts":[
          "background.js",
          "bang.js",
-         "update.js"
+         "update.js",
+         "shared_functions.js"
       ]
    },
    "content_scripts":[
@@ -27,7 +28,8 @@
          ],
          "js":[
             "search_engine.js",
-            "startpage.js"
+            "startpage.js",
+            "shared_functions.js"
          ]
       }
    ],
