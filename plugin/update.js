@@ -25,7 +25,7 @@ function check_for_banglist_update() {
 
     function check(curr_version) {
         console.log(curr_version);
-        get_file("https://duckduckgo.com/bang?q=a", "html", function(response) {
+        get_file("https://duckduckgo.com/bang?q=a", "", function(response) {
         var lines = response.split("\n");
             for(var i = 0; i < lines.length; i++){
                if(lines[i].includes("DDG.inject(\"DDG.Data.bangs.version\"")){

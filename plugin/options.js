@@ -142,7 +142,7 @@ function export_settings() {
 
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('review').addEventListener('click', function() {
-    window.open("https://addons.mozilla.org/en-US/firefox/addon/tt7753bang/");
+    //window.open("https://addons.mozilla.org/en-US/firefox/addon/tt7753bang/");
 });
 document.getElementById('bug').addEventListener('click', function() {
     window.open("https://github.com/sophie-glk/bang/issues");
