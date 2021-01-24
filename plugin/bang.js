@@ -34,8 +34,7 @@ function bang(request, tab_id) {
                     for (j = 0; j < bang_alias.length; j++) {
                         if (bang == "!" + bang_alias[j]) {
                             found = true;
-                            var URL = (bangs[i].url).replace("@search@", encodeURIComponent(raw_search));
-                            update_tab(URL);
+                            use_bang(bangs[i].url, raw_search, "@search@");
                             break;
                         }
                     }
@@ -82,7 +81,7 @@ function bang(request, tab_id) {
             for (var i = 0; i < banglist.length; i++) {
                 if (banglist[i][0] == bang) {
                     console.log("using local list");
-                    update_tab(banglist[i][1].replace("bang", encodeURIComponent(raw_search)));
+                    use_bang(banglist[i][1], raw_search, "bang");
                     found = true;
                     break;
                 }
@@ -137,6 +136,16 @@ function bang(request, tab_id) {
         } else {
             chrome.tabs.update(m);
         }
+    }
+    
+    function use_bang(bang_url, raw_search, id){
+           var url = "";
+           if(search != ""){url = bang_url.replace(id, encodeURIComponent(raw_search)); }
+           else { 
+            var u = new URL(bang_url);
+            url = u.protocol + "//" + u.hostname;
+                    }
+           update_tab(url);
     }
 
 }
