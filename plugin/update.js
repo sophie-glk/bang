@@ -54,7 +54,6 @@ function update_banglist(to_version) {
                 var bang_prefix = "!" + response[i].t;
                 result.push([bang_prefix, bang_site]);
             }
-            console.log(result);
             console.log("Update successful!");
             var bl = JSON.stringify(result);
             chrome.storage.local.set({
