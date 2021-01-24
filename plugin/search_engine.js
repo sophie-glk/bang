@@ -7,7 +7,7 @@ function intercept_engine(options) {
     if (form != null) {
         form.addEventListener('submit', function(event){
             var search = getsearch();
-               contains_bang(search, function(b, raw_search, bang){
+               contains_possible_bang(search, function(b, raw_search, bang){
                if(b){
             check_for_bang(search, raw_search, search_url, false, bang);
         }
@@ -44,7 +44,7 @@ function has_prefix(bang, prefix){
     else{ return false;}
 }
 
-function contains_bang(search, callback){
+function contains_possible_bang(search, callback){
      get_prefix(function(prefix) {
     var b = false;
     var bang = "";

@@ -86,7 +86,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 function match(url, search, tab_id) {
      console.log("matching...");
     if(search != null){
-     contains_bang(search, function(b, raw_search, BANG){
+     contains_possible_bang(search, function(b, raw_search, BANG){
      if(b){
         bang({
             srch: search,
@@ -115,7 +115,7 @@ function get_prefix(callback){
       callback(result.prefix);});
 }
 
-function contains_bang(search, callback){
+function contains_possible_bang(search, callback){
      get_prefix(function(prefix) {
     var b = false;
     var bang = "";
