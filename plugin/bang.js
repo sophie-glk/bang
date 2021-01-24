@@ -26,7 +26,6 @@ function bang(request, tab_id) {
             if (result.bangs != null) {
                 bangs = JSON.parse(result.bangs);
             }
-
             if (bangs != null && bangs.length != 0) {
                 var found = false;
                 for (i = 0; i < bangs.length; i++) {

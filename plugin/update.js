@@ -5,12 +5,12 @@ setInterval(function() {
 }, 1000 * 60 * 30);
 */
 function check_for_banglist_update() {
-    chrome.storage.sync.get(['banglist_version'], function(result) {
+    chrome.storage.local.get(['banglist_version'], function(result) {
         var version = result.banglist_version;
         if (version == null) {
             get_file(chrome.runtime.getURL('banglist/version.json'), "json", function(response) {
                 version = response.version;
-                chrome.storage.sync.set({
+                chrome.storage.local.set({
                     "banglist_version": version
                 });
                 check(version);
@@ -57,7 +57,7 @@ function update_banglist(to_version) {
             console.log(result);
             console.log("Update successful!");
             var bl = JSON.stringify(result);
-            chrome.storage.sync.set({
+            chrome.storage.local.set({
                 "banglist": bl,
                 "banglist_version": to_version
             });
