@@ -140,7 +140,7 @@ function bang(request, tab_id) {
     
     function use_bang(bang_url, raw_search, id){
            var url = "";
-           if(search != ""){url = bang_url.replace(id, encodeURIComponent(raw_search)); }
+           if(raw_search != ""){url = bang_url.replace(id, encodeURIComponent(raw_search)); }
            else { 
             var u = new URL(bang_url);
             url = u.protocol + "//" + u.hostname;
