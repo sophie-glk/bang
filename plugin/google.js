@@ -10,8 +10,6 @@ if (window.location.href.indexOf("/search") != -1) {
 else {
     console.log("homepage");
 	button = document.getElementsByClassName("gNO89b")[0];
-    
-    // do search if enter key is pressed
     document.onkeypress = function(e) {
      if(e.code == "Enter"){
       e.preventDefault();
@@ -23,21 +21,13 @@ else {
 
 intercept_engine({form: form, button: button, getsearch: getsearch, search_url: search_url, fix_btn: true});
 
-
-
 function new_search(){
-    chrome.storage.sync.get(['prefix'], function(result) {
-          var prefix = result.prefix;
-var search = getsearch();
-var bang = search.split(" ")[0];
-if(has_prefix(bang, prefix)){
-check_for_bang(search, search_url, false)
-}
+contains_bang(getsearch(), function(b, se, raw_search, bang){
+if(b){ check_for_bang(raw_search, search_url, false, bang) }
 else if(search != ""){
 form.submit()
 }
-    });
-}
+});
 
 function getsearch() {
 	return document.getElementsByName("q")[0].value;
