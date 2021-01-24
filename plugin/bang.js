@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 
 function bang(request, tab_id) {
     var search = request.srch;
-    var raw_search = search;
+    var raw_search = request.raw_srch;
     var replace = request.rpl;
     var bang = request.bng;
     bang = "!" + bang.substring(1);

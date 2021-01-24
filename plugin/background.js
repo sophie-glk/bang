@@ -89,7 +89,8 @@ function match(url, search, tab_id) {
      contains_bang(search, function(b, raw_search, BANG){
      if(b){
         bang({
-            srch: raw_search,
+            srch: search,
+            raw_srch: raw_search,
             rpl: false,
             bng: BANG
         }, tab_id);
