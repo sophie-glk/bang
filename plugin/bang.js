@@ -77,10 +77,13 @@ function bang(request, tab_id) {
         function check(bl) {
             var found = false;
             var banglist = JSON.parse(bl);
+            console.log(bl);
+            console.log(bang);
+            console.log(banglist[77].t);
             for (var i = 0; i < banglist.length; i++) {
-                if (banglist[i][0] == bang) {
+                if ("!" + banglist[i].t == bang) {
                     console.log("using local list");
-                    use_bang(banglist[i][1], raw_search, "bang");
+                    use_bang(banglist[i].u, raw_search, "{{{s}}}");
                     found = true;
                     break;
                 }

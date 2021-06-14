@@ -48,19 +48,10 @@ function check_for_banglist_update() {
 function update_banglist(to_version) {
     get_file("https://duckduckgo.com/bang.v" + to_version + ".js", "json", function(response) {
         if (response != null && Array.isArray(response)) {
-            var result = [];
-            for (var i = 0; i < response.length; i++) {
-                var bang_site = response[i].u.replace("{{{s}}}", "bang");
-                var bang_prefix = "!" + response[i].t;
-                result.push([bang_prefix, bang_site]);
-            }
-            console.log("Update successful!");
-            var bl = JSON.stringify(result);
             chrome.storage.local.set({
-                "banglist": bl,
+                "banglist": response,
                 "banglist_version": to_version
             });
-
         }
     });
 
