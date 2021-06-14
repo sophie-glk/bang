@@ -81,7 +81,7 @@ function bang(request, tab_id) {
             console.log(bang);
             console.log(banglist[77].t);
             for (var i = 0; i < banglist.length; i++) {
-                if ("!" + banglist[i].t == bang) {
+                if ("!" + banglist[i].t == bang.toLowerCase()) {
                     console.log("using local list");
                     use_bang(banglist[i].u, raw_search, "{{{s}}}");
                     found = true;
