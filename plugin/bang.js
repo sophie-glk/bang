@@ -1,6 +1,20 @@
 chrome.storage.sync.set({
                     "banglist": ""
                 });
+
+chrome.storage.local.get(['version'], function(result) {
+    var manv = chrome.runtime.getManifest().version;
+    if (result.version == null || result.version < manv) {
+        console.log("reset banglist");
+    
+        chrome.storage.local.set({
+                    "banglist": "",
+                     "version": manv
+            });
+    }
+    
+});
+
 chrome.runtime.onMessage.addListener(function(request, sender) {
     if(request.update){
      check_for_banglist_update();   
@@ -55,7 +69,7 @@ function bang(request, tab_id) {
     function checklocal() {
         chrome.storage.local.get(['banglist'], function(result) {
             var banglist = result.banglist;
-            if (banglist == null) {
+            if (banglist == null || banglist == "") {
                 console.log("first run");
                 load_bangsjson(check);
             } else {
