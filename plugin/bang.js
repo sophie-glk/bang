@@ -91,9 +91,6 @@ function bang(request, tab_id) {
         function check(bl) {
             var found = false;
             var banglist = JSON.parse(bl);
-            console.log(bl);
-            console.log(bang);
-            console.log(banglist[77].t);
             for (var i = 0; i < banglist.length; i++) {
                 if ("!" + banglist[i].t == bang.toLowerCase()) {
                     console.log("using local list");
