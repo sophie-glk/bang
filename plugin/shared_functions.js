@@ -18,24 +18,25 @@ function contains_possible_bang(search, callback){
     var b = false;
     var bang = "";
     var s = "";
-    var words = search.split(" ");
-   for (var i = 0; i < words.length; i++){
-        word = words[i];
-        if(has_prefix(word, prefix)){
-            var rpl = word;
-            if( words.length > 1){
+    var words = search.split(prefix);
+            if(words.length > 1){
+            var pb = words[1].split(" ");
+            var word = prefix + pb[0];
+            if( word != null && word.length > 1){
             var space = " ";
-            rpl = word + space;
-            if(i > 0){
-               rpl = space + word; 
+            var rpl = space + word;
+            if(words.length == 2 && pb.length == 1){
+            rpl = word;    
             }
+            
+            else if(words[0] ==  ""){
+               rpl = word + space; 
             }
             s = search.replace(rpl, "");
             b = true;
             bang = word;
-            break;
-        }
-    }
+            }
+            }
     callback(b, s, bang);
      });
 }
