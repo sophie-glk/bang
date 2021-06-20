@@ -13,7 +13,6 @@ else {
 var search_url = "https://" + window.location.hostname + "/do/metasearch.pl?query=@search@"
 intercept_engine({form: form, getsearch: getsearch, search_url: search_url});
 
-
 function getsearch_1() {
 	return document.getElementById("q").value;
 }
