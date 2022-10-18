@@ -100,10 +100,14 @@ function bang(request, tab_id) {
         }
     }
 
-    function update_tab(URL) {
+    function update_tab(url) {
+        // `!blogspot` returns `/?q={{{s}}}+site:blogspot.com`
+        // Turn relative URLs like above into absolute URLs
+        // Already absolute URLs are left unchanged
+        url = new URL(url, 'https://duckduckgo.com/').href;
         var m = {
             loadReplace: replace,
-            url: URL
+            url,
         };
         if (tab_id != null) {
             chrome.tabs.update(tab_id, m);
