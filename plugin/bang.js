@@ -21,14 +21,13 @@ function bang(request, tab_id) {
     var search_url = request.srch_url;
     if (search != null) {
         chrome.storage.sync.get(['bangs', 'onlycustom'], function(result) {
-            var i;
             var bangs = null;
             if (result.bangs != null) {
                 bangs = JSON.parse(result.bangs);
             }
+            let found = false;
             if (bangs != null && bangs.length != 0) {
-                var found = false;
-                for (i = 0; i < bangs.length; i++) {
+                for (let i = 0; i < bangs.length; i++) {
                     var bang_alias = bangs[i].bang.split(" ");
                     for (j = 0; j < bang_alias.length; j++) {
                         if (bang == "!" + bang_alias[j]) {
@@ -37,15 +36,12 @@ function bang(request, tab_id) {
                             break;
                         }
                     }
-                    if (found) {
-                        break;
-                    }
-                }
-                if (!found && result.onlycustom != true) {
-                    checklocal();
+                    if (found) break;
                 }
 
-            } else if (search != null && result.onlycustom != true) {
+            }  
+            
+            if (!found && search != null && result.onlycustom != true) {
                 checklocal();
             }
 
