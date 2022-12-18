@@ -1,8 +1,10 @@
 function restore_options() {
-    chrome.storage.sync.get(['bangs', 'prefix'], function(result) {
+    chrome.storage.sync.get(['bangs', 'prefix', 'onlycustom'], function(result) {
         if (result.prefix != null) {
             document.getElementById("prefix").value = result.prefix;
-
+        }
+        if(result.onlycustom != null){
+            document.getElementById("onlycustom").checked = result.onlycustom;
         }
         if (result.bangs != null) {
             var bangs = JSON.parse(result.bangs);
@@ -64,6 +66,7 @@ function save_options() {
     var bangs = document.getElementsByClassName("bang");
     var urls = document.getElementsByClassName("url");
     var prefix = document.getElementById("prefix").value[0];
+    let onlycustom = document.getElementById("onlycustom").checked;
     var i;
     var ba = [];
     for (i = 0; i < bangs.length; i++) {
@@ -80,6 +83,7 @@ function save_options() {
     var save = JSON.stringify(ba);
     chrome.storage.sync.set({
         "bangs": save,
+        "onlycustom": onlycustom,
         "prefix": prefix
 
     });
@@ -107,6 +111,7 @@ function import_settings() {
                 if (st.ddb) {
                     chrome.storage.sync.set({
                         "bangs": st.bangs,
+                        "onlycustom": st.onlycustom,
                         "prefix": st.prefix
 
                     });
@@ -123,9 +128,10 @@ function import_settings() {
 }
 
 function export_settings() {
-    chrome.storage.sync.get(['bangs', 'prefix'], function(result) {
+    chrome.storage.sync.get(['bangs', 'prefix', 'onlycustom'], function(result) {
         var output = {
             "bangs": result.bangs,
+            "onlycustom": result.onlycustom,
             "prefix": result.prefix,
             "ddb": true
         };

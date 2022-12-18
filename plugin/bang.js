@@ -20,7 +20,7 @@ function bang(request, tab_id) {
     console.log(bang);
     var search_url = request.srch_url;
     if (search != null) {
-        chrome.storage.sync.get(['bangs'], function(result) {
+        chrome.storage.sync.get(['bangs', 'onlycustom'], function(result) {
             var i;
             var bangs = null;
             if (result.bangs != null) {
@@ -41,11 +41,11 @@ function bang(request, tab_id) {
                         break;
                     }
                 }
-                if (!found) {
+                if (!found && result.onlycustom != true) {
                     checklocal();
                 }
 
-            } else if (search != null) {
+            } else if (search != null && result.onlycustom != true) {
                 checklocal();
             }
 
