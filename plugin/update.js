@@ -22,48 +22,35 @@ function check_for_banglist_update() {
         }
 
     });
+}
 
     function check(curr_version) {
         console.log(curr_version);
-        get_file("https://duckduckgo.com/bang?q=a", "html", function(response) {
-        var lines = response.split("\n");
-            for(var i = 0; i < lines.length; i++){
-               if(lines[i].includes("DDG.inject(\"DDG.Data.bangs.version\"")){
+        get_file("https://duckduckgo.com/bv1.js", "html", function(response) {
                    var regex = /[0-9]+/;
-                   var new_version = lines[i].match(regex)[0];
+                   var new_version = response.match(regex)[0];
                    console.log(new_version);
                    if(new_version > curr_version){
                        update_banglist(new_version);
                 }
-                   break;
+            });
             }
-            }
-        });
 
 
-    }
 
-}
 
 function update_banglist(to_version) {
     get_file("https://duckduckgo.com/bang.v" + to_version + ".js", "json", function(response) {
         if (response != null && Array.isArray(response)) {
-            var result = [];
-            for (var i = 0; i < response.length; i++) {
-                var bang_site = response[i].u.replace("{{{s}}}", "bang");
-                var bang_prefix = "!" + response[i].t;
-                result.push([bang_prefix, bang_site]);
-            }
-            console.log("Update successful!");
-            var bl = JSON.stringify(result);
+	    var data = JSON.stringify(response)
+            console.log(data)
             chrome.storage.local.set({
-                "banglist": bl,
+                "banglist": data,
                 "banglist_version": to_version
             });
-
         }
     });
-
+     console.log("updated")
 }
 
 function get_file(url, type, callback) {
