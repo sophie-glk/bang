@@ -15,6 +15,9 @@ function has_prefix(bang, prefix){
 
 function contains_possible_bang(search, callback){
      get_prefix(function(prefix) {
+    if(prefix == null){
+     prefix = "!";
+    }
     var b = false;
     var bang = "";
     var s = "";
