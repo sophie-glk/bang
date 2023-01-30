@@ -1,29 +1,29 @@
 chrome.storage.sync.set({
-                    "banglist": ""
-                });
+    "banglist": ""
+});
 
-chrome.storage.local.get(['version'], function(result) {
+chrome.storage.local.get(['version'], function (result) {
     var manv = chrome.runtime.getManifest().version;
     if (result.version == null || result.version < manv) {
         console.log("reset banglist");
-    
+
         chrome.storage.local.set({
-                    "banglist": "",
-                     "version": manv
-            });
+            "banglist": "",
+            "version": manv
+        });
     }
-    
+
 });
 
-chrome.runtime.onMessage.addListener(function(request, sender) {
-    if(request.update){
-     check_for_banglist_update();   
+chrome.runtime.onMessage.addListener(function (request, sender) {
+    if (request.update) {
+        check_for_banglist_update();
     }
-    else{
-    bang(request, sender.tab.id);
+    else {
+        bang(request, sender.tab.id);
     }
-        
-    });
+
+});
 
 function bang(request, tab_id) {
     var search = request.srch;
@@ -34,7 +34,7 @@ function bang(request, tab_id) {
     console.log(bang);
     var search_url = request.srch_url;
     if (search != null) {
-        chrome.storage.sync.get(['bangs', 'onlycustom'], function(result) {
+        chrome.storage.sync.get(['bangs', 'onlycustom'], function (result) {
             var bangs = null;
             if (result.bangs != null) {
                 bangs = JSON.parse(result.bangs);
@@ -53,8 +53,8 @@ function bang(request, tab_id) {
                     if (found) break;
                 }
 
-            }  
-            
+            }
+
             if (!found && search != null && result.onlycustom != true) {
                 checklocal();
             }
@@ -63,7 +63,7 @@ function bang(request, tab_id) {
     }
 
     function checklocal() {
-        chrome.storage.local.get(['banglist'], function(result) {
+        chrome.storage.local.get(['banglist'], function (result) {
             var banglist = result.banglist;
             if (banglist == null || banglist == "") {
                 console.log("first run");
@@ -74,7 +74,7 @@ function bang(request, tab_id) {
         });
 
         function load_bangsjson(check) {
-            get_file(chrome.runtime.getURL('banglist/bangs.json'), "json", function(response) {
+            get_file(chrome.runtime.getURL('banglist/bangs.json'), "json", function (response) {
                 var bl = JSON.stringify(response);
                 chrome.storage.local.set({
                     "banglist": bl
@@ -115,25 +115,38 @@ function bang(request, tab_id) {
         // Turn relative URLs like above into absolute URLs
         // Already absolute URLs are left unchanged
         url = new URL(url, 'https://duckduckgo.com/').href;
-        var m = {
-            loadReplace: replace,
-            url,
-        };
-        if (tab_id != null) {
-            chrome.tabs.update(tab_id, m);
-        } else {
-            chrome.tabs.update(m);
+        browser.runtime.getPlatformInfo().then((info) => {
+            let updateProperties;
+            //android doesn't support the loadReplace option.
+            if (info.os == "android") {
+                updateProperties = { url };
+            }
+            else {
+                updateProperties = {
+                    loadReplace: replace,
+                    url
+                };
+            }
+            if (tab_id != null) {
+                chrome.tabs.update(tab_id, updateProperties);
+            } else {
+                chrome.tabs.update(updateProperties);
+            }
         }
+
+        );
+
+
     }
-    
-    function use_bang(bang_url, raw_search, id){
-           var url = "";
-           if(raw_search != ""){url = bang_url.replace(id, encodeURIComponent(raw_search)); }
-           else { 
+
+    function use_bang(bang_url, raw_search, id) {
+        var url = "";
+        if (raw_search != "") { url = bang_url.replace(id, encodeURIComponent(raw_search)); }
+        else {
             var u = new URL(bang_url);
             url = u.protocol + "//" + u.hostname;
-                    }
-           update_tab(url);
+        }
+        update_tab(url);
     }
 
 }
