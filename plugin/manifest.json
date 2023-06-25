@@ -1,44 +1,44 @@
 {
-   "name":"Bang!",
-   "version":"2.4",
-   "browser_specific_settings":{
-      "gecko":{
-         "id":"bangs@tt7753",
-         "strict_min_version":"57.0"
+   "name": "Bang!",
+   "version": "2.4",
+   "browser_specific_settings": {
+      "gecko": {
+         "id": "bangs@tt7753",
+         "strict_min_version": "100.0"
       }
    },
-   "options_ui":{
-      "page":"options.html",
-      "browser_style":true,
-      "chrome_style":true
+   "options_ui": {
+      "page": "options.html"
    },
-   "description":"An extension to add duckduckgo bangs to various search engines",
-   "background":{
-      "scripts":[
+   "description": "An extension to add duckduckgo bangs to various search engines",
+   "background": {
+      "scripts": [
          "background.js",
          "bang.js",
          "update.js",
          "shared_functions.js"
       ]
    },
-   "content_scripts":[
+   "content_scripts": [
       {
-         "matches":[
+         "matches": [
             "https://*.startpage.com/*"
          ],
-         "js":[
+         "js": [
             "search_engine.js",
             "startpage.js",
             "shared_functions.js"
          ]
       }
    ],
-   "permissions":[
+   "permissions": [
       "webRequest",
       "tabs",
       "storage",
       "webRequestBlocking",
-      "activeTab",
+      "activeTab"
+   ],
+   "host_permissions": [
       "https://duckduckgo.com/bang_lite.html",
       "http://www.google.com/search*",
       "http://www.google.co.jp/search*",
@@ -102,12 +102,24 @@
       "https://*.ecosia.org/search*",
       "https://*.qwant.com/*"
    ],
-   "web_accessible_resources":[
-      "banglist/bangs.json",
-      "banglist/version.json"
+   "web_accessible_resources": [
+      {
+         "resources": [
+            "banglist/bangs.json"
+         ],
+         "matches": [
+            "*://*/*"
+         ],
+         "resources": [
+            "banglist/version.json"
+         ],
+         "matches": [
+            "*://*/*"
+         ]
+      }
    ],
-   "icons":{
-      "256":"icon.png"
+   "icons": {
+      "256": "icon.png"
    },
-   "manifest_version":2
+   "manifest_version": 3
 }
