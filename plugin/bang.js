@@ -1,13 +1,13 @@
-chrome.storage.sync.set({
+browser.storage.sync.set({
     "banglist": ""
 });
 
-chrome.storage.local.get(['version'], function (result) {
-    var manv = chrome.runtime.getManifest().version;
+browser.storage.local.get(['version'], function (result) {
+    var manv = browser.runtime.getManifest().version;
     if (result.version == null || result.version < manv) {
         console.log("reset banglist");
 
-        chrome.storage.local.set({
+        browser.storage.local.set({
             "banglist": "",
             "version": manv
         });
@@ -15,7 +15,7 @@ chrome.storage.local.get(['version'], function (result) {
 
 });
 
-chrome.runtime.onMessage.addListener(function (request, sender) {
+browser.runtime.onMessage.addListener(function (request, sender) {
     if (request.update) {
         check_for_banglist_update();
     }
@@ -34,7 +34,7 @@ function bang(request, tab_id) {
     console.log(bang);
     var search_url = request.srch_url;
     if (search != null) {
-        chrome.storage.sync.get(['bangs', 'onlycustom'], function (result) {
+        browser.storage.sync.get(['bangs', 'onlycustom'], function (result) {
             var bangs = null;
             if (result.bangs != null) {
                 bangs = JSON.parse(result.bangs);
@@ -63,7 +63,7 @@ function bang(request, tab_id) {
     }
 
     function checklocal() {
-        chrome.storage.local.get(['banglist'], function (result) {
+        browser.storage.local.get(['banglist'], function (result) {
             var banglist = result.banglist;
             if (banglist == null || banglist == "") {
                 console.log("first run");
@@ -74,9 +74,9 @@ function bang(request, tab_id) {
         });
 
         function load_bangsjson(check) {
-            get_file(chrome.runtime.getURL('banglist/bangs.json'), "json", function (response) {
+            get_file(browser.runtime.getURL('banglist/bangs.json'), "json", function (response) {
                 var bl = JSON.stringify(response);
-                chrome.storage.local.set({
+                browser.storage.local.set({
                     "banglist": bl
                 });
                 check(bl);
@@ -128,9 +128,9 @@ function bang(request, tab_id) {
                 };
             }
             if (tab_id != null) {
-                chrome.tabs.update(tab_id, updateProperties);
+                browser.tabs.update(tab_id, updateProperties);
             } else {
-                chrome.tabs.update(updateProperties);
+                browser.tabs.update(updateProperties);
             }
         }
 
