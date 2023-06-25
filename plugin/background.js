@@ -4,6 +4,10 @@ chrome.webRequest.onBeforeRequest.addListener(
         var url_s = info.url;
         var url = new URL(url_s);
         var search = null;
+        //we dont want a bang to trigger bc qwant is giving us suggestions
+        if(url_s.includes("qwant.com/v3/suggest")){
+            return;
+        }
         if (url_s.includes("startpage.com/do/")) {
            search = url.searchParams.get("query");;
         } else {
@@ -75,7 +79,8 @@ chrome.webRequest.onBeforeRequest.addListener(
             "https://*.startpage.com/do/dsearch*",
             "https://*.startpage.com/do/metasearch.pl*",
             "https://www.bing.com/search*",
-            "https://*.ecosia.org/search*"
+            "https://*.ecosia.org/search*",
+            "https://*.qwant.com/*"
         ]
     },
     // extraInfoSpec

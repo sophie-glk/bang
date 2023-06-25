@@ -99,7 +99,8 @@
       "https://*.startpage.com/do/dsearch*",
       "https://*.startpage.com/do/metasearch.pl*",
       "https://www.bing.com/search*",
-      "https://*.ecosia.org/search*"
+      "https://*.ecosia.org/search*",
+      "https://*.qwant.com/*"
    ],
    "web_accessible_resources":[
       "banglist/bangs.json",
