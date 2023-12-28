@@ -36,9 +36,8 @@
       "webRequest",
       "tabs",
       "storage",
-      "webRequestBlocking",
-      "activeTab"
-   ],
+      "webRequestBlocking"
+      ],
    "host_permissions": [
       "https://duckduckgo.com/bang_lite.html",
       "http://www.google.com/search*",
