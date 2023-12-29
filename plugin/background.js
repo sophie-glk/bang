@@ -3,19 +3,13 @@ chrome.webRequest.onBeforeRequest.addListener(
         console.log(info);
         var url_s = info.url;
         var url = new URL(url_s);
-        var search = null;
         //we dont want a bang to trigger bc qwant is giving us suggestions
         if(url_s.includes("qwant.com/v3/suggest")){
             return;
         }
-        if (url_s.includes("startpage.com/do/")) {
-           search = url.searchParams.get("query");;
-        } else {
-            search = url.searchParams.get("q");
-          
-        }
-          console.log(search);
-          match(url, search, info.tabId);
+        var search = url.searchParams.get("q");
+        console.log(search);
+        match(url, search, info.tabId);
     },
     // filters
     {
