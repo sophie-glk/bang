@@ -28,7 +28,7 @@ function bang(request, tab_id) {
     console.log(bang);
     var search_url = request.srch_url;
     if (search == null) { return;}
-        browser.storage.sync.get(['bangs', 'onlycustom'], function (result) {
+        browser.storage.sync.get(['bangs', 'onlycustom', "useddg"], function (result) {
             var bangs = null;
             if (result.bangs != null) {
                 bangs = JSON.parse(result.bangs);
@@ -40,7 +40,7 @@ function bang(request, tab_id) {
                     var bang_alias = bangs[i].bang.split(" ");
                     for (j = 0; j < bang_alias.length; j++) {
                         if (bang == "!" + bang_alias[j]) {
-                            use_bang(bangs[i].url, raw_search, "@search@");
+                            use_bang(bang, bangs[i].url, raw_search, "@search@", true);
                             return;
                         }
                     }
@@ -52,7 +52,7 @@ function bang(request, tab_id) {
                 checklocal();
             }
 
-        });
+
     
 
     function checklocal() {
@@ -83,7 +83,7 @@ function bang(request, tab_id) {
             for (var i = 0; i < banglist.length; i++) {
                 if ("!" + banglist[i].t == bang.toLowerCase()) {
                     console.log("using local list");
-                    use_bang(banglist[i].u, raw_search, "{{{s}}}");
+                    use_bang(bang.toLowerCase(), banglist[i].u, raw_search, "{{{s}}}", false);
                     found = true;
                     break;
                 }
@@ -132,16 +132,25 @@ function bang(request, tab_id) {
 
     }
 
-    function use_bang(bang_url, raw_search, id) {
+    function use_bang(bang, bang_url, raw_search, id, custom) {
         var url = "";
+
+        //user internal bang list
+        if(result.useddg != true || custom == true){
         if (raw_search != "") { url = bang_url.replace(id, encodeURIComponent(raw_search)); }
         else {
             var u = new URL(bang_url);
             url = u.protocol + "//" + u.hostname;
         }
+    }
+    // use ddgs search 
+    else{
+       url = "https://duckduckgo.com/?q="+bang + " " + encodeURIComponent(raw_search);
+    }
         update_tab(url);
     }
 
+});
 }
 
 function get_file(url, type, callback) {

@@ -1,10 +1,13 @@
 function restore_options() {
-    chrome.storage.sync.get(['bangs', 'prefix', 'onlycustom'], function(result) {
+    chrome.storage.sync.get(['bangs', 'prefix', 'onlycustom', 'useddg'], function(result) {
         if (result.prefix != null) {
             document.getElementById("prefix").value = result.prefix;
         }
         if(result.onlycustom != null){
             document.getElementById("onlycustom").checked = result.onlycustom;
+        }
+        if(result.useddg != null){
+            document.getElementById("useddg").checked = result.useddg;
         }
         if (result.bangs != null) {
             var bangs = JSON.parse(result.bangs);
@@ -67,6 +70,8 @@ function save_options() {
     var urls = document.getElementsByClassName("url");
     var prefix = document.getElementById("prefix").value[0];
     let onlycustom = document.getElementById("onlycustom").checked;
+    let useddg = document.getElementById("useddg").checked;
+
     var i;
     var ba = [];
     for (i = 0; i < bangs.length; i++) {
@@ -84,7 +89,8 @@ function save_options() {
     chrome.storage.sync.set({
         "bangs": save,
         "onlycustom": onlycustom,
-        "prefix": prefix
+        "prefix": prefix,
+        "useddg": useddg
 
     });
 
@@ -103,7 +109,8 @@ function import_settings() {
                     chrome.storage.sync.set({
                         "bangs": st.bangs,
                         "onlycustom": st.onlycustom,
-                        "prefix": st.prefix
+                        "prefix": st.prefix,
+                        "useddg": useddg
 
                     });
                     location.reload();
@@ -119,11 +126,12 @@ function import_settings() {
 }
 
 function export_settings() {
-    chrome.storage.sync.get(['bangs', 'prefix', 'onlycustom'], function(result) {
+    chrome.storage.sync.get(['bangs', 'prefix', 'onlycustom', 'useddg'], function(result) {
         var output = {
             "bangs": result.bangs,
             "onlycustom": result.onlycustom,
             "prefix": result.prefix,
+            "useddg": result.useddg,
             "ddb": true
         };
         var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(output));
