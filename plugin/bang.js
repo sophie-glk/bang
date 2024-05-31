@@ -150,3 +150,14 @@ function bang(request, tab_id) {
     }
 
 }
+
+function get_file(url, type, callback) {
+    var req = new XMLHttpRequest();
+    req.responseType = type;
+    req.open('GET', url, true);
+    req.onload = function() {
+        callback(req.response);
+    };
+    req.send(null);
+
+}
