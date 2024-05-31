@@ -91,15 +91,6 @@ function save_options() {
     location.reload();
 }
 
-function update_banglist() {
-    chrome.runtime.sendMessage({
-        update: true
-    }, function(response) {
-        alert("OK");
-    });
-
-}
-
 function import_settings() {
     var inp = document.getElementById('import_input');
     inp.click();
@@ -156,7 +147,6 @@ document.getElementById('bug').addEventListener('click', function() {
 document.getElementById('save').addEventListener('click', save_options);
 document.getElementById('import').addEventListener('click', import_settings);
 document.getElementById('export').addEventListener('click', export_settings);
-document.getElementById('update').addEventListener('click', update_banglist)
 document.getElementById('add').addEventListener('click', function() {
     addline("", "", document.getElementsByClassName("bang").length);
 });
