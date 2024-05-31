@@ -16,13 +16,7 @@ browser.storage.local.get(['version'], function (result) {
 });
 
 browser.runtime.onMessage.addListener(function (request, sender) {
-    if (request.update) {
-        check_for_banglist_update();
-    }
-    else {
         bang(request, sender.tab.id);
-    }
-
 });
 
 function bang(request, tab_id) {
@@ -33,34 +27,33 @@ function bang(request, tab_id) {
     bang = "!" + bang.substring(1);
     console.log(bang);
     var search_url = request.srch_url;
-    if (search != null) {
+    if (search == null) { return;}
         browser.storage.sync.get(['bangs', 'onlycustom'], function (result) {
             var bangs = null;
             if (result.bangs != null) {
                 bangs = JSON.parse(result.bangs);
             }
-            let found = false;
+ 
+            //check custom bang
             if (bangs != null && bangs.length != 0) {
                 for (let i = 0; i < bangs.length; i++) {
                     var bang_alias = bangs[i].bang.split(" ");
                     for (j = 0; j < bang_alias.length; j++) {
                         if (bang == "!" + bang_alias[j]) {
-                            found = true;
                             use_bang(bangs[i].url, raw_search, "@search@");
-                            break;
+                            return;
                         }
                     }
-                    if (found) break;
                 }
 
             }
-
-            if (!found && search != null && result.onlycustom != true) {
+        //check normal list
+            if (result.onlycustom != true) {
                 checklocal();
             }
 
         });
-    }
+    
 
     function checklocal() {
         browser.storage.local.get(['banglist'], function (result) {
